@@ -1,0 +1,25 @@
+Código status HTML
+
+----------------------------------------RESPOSTAS INFORMATIVAS------------------------------------
+- CÓDIGO 100  (continue)
+	Mostra que esta tudo OK para o cliente continuar a requisição.
+- CÓDIGO 101 (troca de protocolo)
+	Indica para qual protocolo o cliente foi redirecionado "Switch Protocol".
+- CÓDIGO 102 (recebeu mas não está disponível)
+	Indica que o servidor recebeu a requisição mas não está disponível para atender.
+- CÓDIGO 103 (Um cabeçalho emitido para espera)
+	Indica a formação de um cabeçalho para pré-carregar a ação necessaŕia enquanto ainda não pode.
+
+---------------------------------------RESPOSTA DE SUCESSO---------------------------------------
+º GET - O recurso foi pego e trazido no corpo da mensagem.
+º HEAD - Os cabeçalhos da entidade estão no corpo da mensagem.
+º PUT ou POST - O recurso descrevendo o resultado da ação é transmitido no corpo dela.
+º TRACE - Está aparecendo no corpo da mensagem a mensagem recebida pelo servidor.
+
+- CÓDIGO 200 (ok, tudo certo)
+	Requisição bem sucedida.
+- CÓDIGO 201 (ok, tudo certo, criei uma coisa)
+	A requisição foi bem sucedida e um novo recurso foi criado.
+- CÓDIGO 202 (requsição racebida, mas nada vai acontecer)
+	
+	
