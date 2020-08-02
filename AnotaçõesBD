@@ -1,0 +1,193 @@
+--------------------------------------------Entrar no Terminal mysql----------------------------
+entrar no mysql pelo terminal - sudo mysql -u root -p
+
+INICIAR O MYSQL - service mysql start
+PARAR O MYSQL - service mysql stop
+RESTART NO MYSQL -service mysql restart
+VERIFICAR STATUS MYSQL - service mysql status
+ALTERAR SENHA - mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('senha');
+
+
+---------------------------------------DUMP PELO TERMINAL----------------------------------------------
+mysqldump -u root -p NOME_DO_BANCO_DE_DADOS > /home/ronaldosarmento/dumps/NOME_QUE_QUER.sql
+			
+				RESTAURANDO O DUMP PELO TERMINAL
+mysql -u root -p NOME_DO_BANCO_DE_DADOS_NOVO < /home/ronaldosarmento/dumps/NOME_BANCO_SALVO.sql
+
+OBS: antes tem que entrar no workbench e criar um banco de dados
+
+
+---------------------------------------ENTRAR CFG MYSQL--------------------------------------------
+
+Entrar na cfg sudo gedit /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo service mysql restart
+
+                             MODIFICAR A SENHA
+sudo mysql -u root
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'SuaSenha';  Rmms@123
+
+
+---------------------------------------------------CRIAR BD UTF8----------------------------------
+create database cadastro
+default character set utf8
+default collate utf8_general_ci; 
+
+-------------------------------------------criando TABELAS-----------------------------------------
+create table pessoas(
+id int NOT NULL AUTO_INCREMENT,
+nome varchar(30) NOT NULL,
+nascimento date NOT NULL,
+sexo enum ('M','F'),
+altura decimal (3,2),
+peso decimal (5.2),
+nacionalidade varchar(30) DEFAULT 'Brasil',
+PRIMARY KEY (id)
+)default charset = utf8;
+
+
+
+
+------------------------------MODIFICANDO CONSTRAINT DE TABELAS --------------------------------
+alter table pessoas
+modify column peso float;
+
+ALTER TABLE pessoas
+change column profissao prof varchar(20)   ------ O CHANGE COLUMN MUDA O NOME DA COLUNA
+
+
+ALTER TABLE pessoas
+RENAME to pessoas_id;     ------------ Muda o nome da tabela inteira 
+
+------------------------------------ INSERIR DADOS NA TABELA-----------------------------------
+INSERT INTO pessoas
+(id, nome, nascimento, sexo, altura, peso, nacionalidade)
+VALUES
+('1', 'Matheus', '1995-08-11', 'M', '1,78', '80,0','Brasil');
+
+
+------------------------------------------------------------------------------------------------
+Linha = Túpla = Registro
+
+----------------------------------- MODIFICAR LINHAS DE UMA TABELA---------------------------------
+update cursos
+set nome = 'PHP' , ano = '2015'
+where idcurso = '4';
+
+
+UPDATE estudantes SET cursopreferido = 29 WHERE (id = 14); - modificando apenas uma linha
+
+---------------------------------- DELETAR REGISTRO -------------------------------------------
+DELETE from cursos
+where idcurso = 8;
+
+---------------------------------COMANDO SELECT-------------------------------------------------
+
+Select * from produtos ( vai pegar tudo da tabela produtos)
+
+Select * from produtos order by nome; ( vai pegar tudo da tabela curso e colocar em ordem 
+alfabética o campo 'nome')
+
+Select * from produtos order by nome desc; ( vai pegar tudo da tabela produtos e colocar em ordem alfabética de forma decrescente)
+
+Select nome, carga, ano from produtos order by nome; (vai pegar somente o nome, carga e ano da tabela produtos ordenado por nome em ordem alfabética)
+
+select * from produtos
+where ano = '2000'
+order by nome;         ( vai buscar tudo que tem o ano de 2000 da tabela produtos ordenado de
+			forma alfabéita os nomes)
+
+
+Select * from cursos   (vai trazer tudo da tabela curso que comece com P) 
+where nome LIKE 'P%'
+
+
+
+Select Distinct carga from cursos; ( não vai mostrar os registros que se duplicam, mostrando apenas uma vez)
+
+
+Select count(*) from cursos; (vai contar quantas registros cadastrados eu tenho na tabela curso)
+
+
+Select max (carga) from cursos; (vai mostrar a maior carga que tem no registro)
+
+Select min (carga) from cursos; (vai mostrar a menor carga que tem no registro)
+
+select sun (carga) from cursos; (vai mostrar a soma do campo carga que tem na tabela)
+
+select avg (carga) from cursos; (vai mostrar a média do registro carga que tem na tabela)
+
+select totaulas, count(*) from cursos 
+group by totaulas;                   (vai agrupar as aulas igual o distinct porém vai mostrar
+					quantas tem de cada um) 
+
+
+select ano, cout(*) from cursos
+group by ano 
+HAVING count(ano) >= 5       (o having só serve para o group by, é como se fosse um where)
+order by count(*) desc;
+
+
+select carga count(*) from cursos
+where ano > 2015
+group by carga
+having carga > (select avg(carga) from cursos);     (Um select dentro do outro, vai mostrar a carga
+							maior que média de carga dos anos)
+
+---------------------------------------OPERADORES DO SELECT--------------------------------------
+<= (menor ou igual)
+>= (maior ou igual)
+< (menor)
+> (maior)
+!= ou <> (diferente)
+BETWEEN par1 and par2 (entre par1 e par2)
+IN (par1, par2, par2) - No parãmetro par1, par2 e pa3 , só vai mostrar a busca que tiver esse  resultado
+       existem também os 
+AND
+OR
+XOR
+
+LIKE
+
+---------------------------------------- RELACIONAMENTO -------------------------------------------------
+ALTER TABLE gafanhotos add FOREIGN KEY (cursopreferido) REFERENCES curso (idcurso); (colocando a chave 												secundária)
+
+update gafanhotos set cursopreferido = 6 where id =1; (colocando atributo na chave secundária)
+
+
+Select gafanhotos.nome, cursos.nome, cursos.ano
+from gafanhostos join cursos
+on cursos.idcurso = gafanhotos.cursopreferido;
+
+Select gafanhotos.nome, cursos.nome, cursos.ano
+from gafanhostos LEFT OUTER JOIN cursos
+on cursos.idcurso = gafanhotos.cursopreferido;
+
+Select gafanhotos.nome, cursos.nome, cursos.ano
+from gafanhostos RIGHT OUTER JOIN cursos
+on cursos.idcurso = gafanhotos.cursopreferido;
+
+
+
+
+DCL
+	GRANT
+	REVOKE
+
+DDL
+	CREATE DATABASE	
+	CREATE TABLE
+	ALTER TABLE
+	DROP TABLE
+        
+DML
+	INSERT INTO
+	UPDATE
+	DELETE
+	TRUNCATE
+
+DQL
+	SELECT
+
+DTL
+	COMMIT
+	ROLLBACK
